@@ -1,6 +1,6 @@
-from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import UserManager
+
 
 class CreatedUpdatedBase(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -11,23 +11,14 @@ class CreatedUpdatedBase(models.Model):
 
 
 # Create your models here.
-class User(AbstractBaseUser, CreatedUpdatedBase):
-    username = models.CharField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=200, null=True)
-    last_name = models.CharField(max_length=200, null=True)
-    email = models.EmailField(null=True, unique=True)
-    is_activate = models.BooleanField(default=False)
+class User(AbstractUser):
     avatar = models.ImageField(verbose_name='avatar', upload_to='images/')
     birthday = models.DateTimeField()
-    is_superuser = models.BooleanField(default=False)
     skill = models.ManyToManyField('skill.Skill')
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
-
-    objects = UserManager()
 
     class Meta:
         db_table = 'user'
+        ordering = ['-id']
 
     def __str__(self):
         return self.username
