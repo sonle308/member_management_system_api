@@ -28,5 +28,15 @@ class TokenRefreshLoggingView(TokenRefreshView):
     serializer_class = serializers.TokenRefreshLoggingSerializer
 
 
+class AdminTokenObtainPairLoggingView(TokenObtainPairView):
+    serializer_class = serializers.AdminTokenObtainPairLoggingSerializer
+
+
+class AdminTokenRefreshLoggingView(TokenRefreshView):
+    serializer_class = serializers.AdminTokenRefreshLoggingSerializer
+
+
 token_obtain_pair = TokenObtainPairLoggingView.as_view()
 token_refresh = TokenRefreshLoggingView.as_view()
+admin_token_obtain_pair = AdminTokenObtainPairLoggingView.as_view()
+admin_token_refresh = AdminTokenRefreshLoggingView.as_view()
