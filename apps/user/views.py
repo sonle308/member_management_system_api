@@ -1,11 +1,8 @@
-from django.conf.urls import url, include
 from django.http.multipartparser import MultiPartParser
-from rest_framework import viewsets, mixins
 from apps.user.serializers import UserSerializer
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from rest_framework.views import APIView
-from rest_framework_csv.renderers import CSVRenderer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.settings import api_settings
@@ -15,15 +12,15 @@ User = get_user_model()
 
 
 class UserList(APIView):
-    renderer_classes = (r.CSVRenderer, ) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
+    renderer_classes = (r.CSVRenderer,) + tuple(api_settings.DEFAULT_RENDERER_CLASSES)
 
     @classmethod
     def get_extra_actions(cls):
         return []
 
     def get(self, request, format=None):
-        snippets = User.objects.all()
-        serializer = UserSerializer(snippets, many=True)
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -33,13 +30,13 @@ class UserList(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
     def get_renderer_context(self):
         context = super().get_renderer_context()
         context['header'] = (
             self.request.GET['fields'].split(',')
             if 'fields' in self.request.GET else None)
         return context
+
 
 class UserDetail(APIView):
     def get_object(self, pk):
@@ -73,9 +70,9 @@ class FormParser(object):
 
 class ImportCsv(APIView):
     serializer_class = UserSerializer
-    parser_classes = [ MultiPartParser,FormParser ]
+    parser_classes = [MultiPartParser, FormParser]
 
-    def post(self,request):
+    def post(self, request):
         try:
             serializer = UserSerializer(data=request.data)
             print(serializer.initial_data)

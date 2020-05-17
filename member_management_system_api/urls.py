@@ -11,6 +11,7 @@ router.register(r'api/v1/users/', views.UserList, basename='User')
 urlpatterns = [
     path("api/v1/", include("apps.authentication.urls")),
     path("api/v1/", include("apps.user.urls")),
+    path("api/v1/", include("apps.skill.urls")),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
