@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from apps.skill import views
 
-app_name = 'user'
+app_name = 'skill'
 
 urlpatterns = [
     path('skills/', views.SkillList.as_view()),

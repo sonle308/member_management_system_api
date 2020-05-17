@@ -12,6 +12,7 @@ urlpatterns = [
     path("api/v1/", include("apps.authentication.urls")),
     path("api/v1/", include("apps.user.urls")),
     path("api/v1/", include("apps.skill.urls")),
+    path("api/v1/", include("apps.position.urls")),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
